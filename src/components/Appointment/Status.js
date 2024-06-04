@@ -1,3 +1,4 @@
+// src/components/Appointment/Status.js
 import React from "react";
 
 export default function Status(props) {
