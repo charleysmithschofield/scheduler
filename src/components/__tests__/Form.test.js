@@ -1,7 +1,7 @@
 // Form.test.js
 
 import React from "react";
-import { render, cleanup, fireEvent } from "@testing-library/react";
+import { render, cleanup, fireEvent, act } from "@testing-library/react";
 import Form from "components/Appointment/Form";
 
 
@@ -41,7 +41,9 @@ describe("Form", () => {
     );
   
     /* 3. Click the save button */
-    fireEvent.click(getByText("Save"));
+    act(() => {
+      fireEvent.click(getByText("Save"));
+    })
   
     expect(getByText(/student name cannot be blank/i)).toBeInTheDocument();
     expect(onSave).not.toHaveBeenCalled();
@@ -57,7 +59,9 @@ describe("Form", () => {
     );
   
     /* 3. Click the save button */
-    fireEvent.click(getByText("Save"));
+    act(() => {
+      fireEvent.click(getByText("Save"));
+    })
   
     expect(getByText(/please select an interviewer/i)).toBeInTheDocument();
     expect(onSave).not.toHaveBeenCalled();
@@ -78,7 +82,9 @@ describe("Form", () => {
     );
   
     /* 3. Click the save button */
-    fireEvent.click(getByText("Save"));
+    act(() => {
+      fireEvent.click(getByText("Save"));
+    })
   
     expect(queryByText(/student name cannot be blank/i)).toBeNull();
     expect(queryByText(/please select an interviewer/i)).toBeNull();
