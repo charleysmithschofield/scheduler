@@ -24,16 +24,20 @@ export default function Form(props) {
       setError("Student name cannot be blank");
       return;
     }
-  
+
     if (interviewer === null) {
       setError("Please select an interviewer");
       return;
     }
-  
+
+    if (interviewer === null) {
+      setError("Please select an interviewer");
+      return;
+    }
+
     setError("");
     props.onSave(name, interviewer);
   }
-  
 
   return (
     <main className="appointment__card appointment__card--create">
@@ -48,6 +52,7 @@ export default function Form(props) {
             onChange={event => {
               setName(event.target.value);
             }}
+            data-testid="student-name-input"
           />
         </form>
         <section className="appointment__validation">{error}</section>
