@@ -47,7 +47,13 @@ describe("Application", () => {
     // Assert that the "Saving" indicator is displayed    
     expect(getByText(appointment, "Saving")).toBeInTheDocument();
 
-    
-    console.log(prettyDOM(appointment));
+    // Wait until the "Saving" indicator is removed and confirm that the student's name is displayed
+    await findByText(appointment, "Lydia Miller-Jones");
+
+    // Find the specific day node that contains the text "Monday"
+    const day = getAllByTestId(container, "day").find((day) => queryByText(day, "Monday"));
+
+    // Verify that "Monday" day also displays "no spots remaining"
+    expect(queryByText(day, "no spots remaining")).toBeInTheDocument();
   });
 });
