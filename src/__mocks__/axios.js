@@ -1,4 +1,5 @@
 // __mocks__/axios.js
+
 /* Mock data for days, appointments, and interviewers */
 const fixtures = {
   days: [
@@ -92,10 +93,35 @@ export default {
 
   /* Mocking the PUT method */
   put: jest.fn((url, data) => {
-    /* // Returning a resolved promise with status 204 and statusText "No Content" */
+    /* Returning a resolved promise with status 204 and statusText "No Content" */
     return Promise.resolve({
       status: 204,
       statusText: "No Content",
     });
   }),
+
+  /* Mocking the DELETE method */
+  delete: jest.fn((url) => {
+    /* Returning a resolved promise with status 204 and statusText"No Content" */
+    return Promise.resolve({
+      status: 204,
+      statusText: "No Content",
+    });
+  }),
+
+  // // Mock display error message
+  // put: jest.fn((url, data) => {
+  //   /* Returning a rejected promise with a statusText "Could not save appointment"*/
+  //   return Promise.reject({
+  //     statusText: "Could not save appointment"
+  //   })
+  // }),
+
+  //  // Mock display error message
+  //  delete: jest.fn((url, data) => {
+  //   /* Returning a rejected promise with a statusText "Could not save appointment"*/
+  //   return Promise.reject({
+  //     statusText: "Could not delete appointment"
+  //   })
+  // })
 };
