@@ -29,21 +29,13 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
-  const handleAddAppointment = () => {
-    transition(CREATE);
-  };
-
-  const handleCancel = () => {
-    back();
-  };
-
   function save(name, interviewer) {
     const interview = {
       student: name,
       interviewer
     };
 
-    transition(SAVING);
+    transition(SAVING, true);
 
     props
       .bookInterview(props.id, interview)
@@ -64,41 +56,49 @@ export default function Appointment(props) {
   return (
     <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
-      {mode === EMPTY && <Empty onAdd={handleAddAppointment} />}
+      {/* Render Empty component if mode is EMPTY */}
+      {mode === EMPTY &&  <Empty onAdd={() => transition(CREATE)} />}
+      {/* Render Show component if mode is SHOW */}
       {mode === SHOW && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           onDelete={() => transition(CONFIRM)}
-          onEdit={() => {
-            console.log("Transitioning to EDIT mode");
-            transition(EDIT);
-          }}
+          onEdit={() => transition(EDIT)}
         />
       )}
+      {/* Render Form component if mode is CREATE */}
       {mode === CREATE && (
-        <Form interviewers={props.interviewers} onCancel={handleCancel} onSave={save} />
+        <Form interviewers={props.interviewers} 
+        onCancel={back} 
+        onSave={save} />
       )}
+      {/* Render Form component for editing if mode is EDIT */}
       {mode === EDIT && (
         <Form
-          name={props.interview ? props.interview.student : ""}
-          interviewer={interviewerId}
+          name={props.interview.student}
+          interviewer={props.interview.interviewer.id}
           interviewers={props.interviewers}
-          onCancel={handleCancel}
+          onCancel={back}
           onSave={save}
         />
       )}
-      {mode === SAVING && <Status />}
-      {mode === DELETING && <Status />}
+      {/* Render Status component if mode is SAVING or DELETING */}
+      {mode === SAVING && <Status message="Saving" />}
+      {mode === DELETING && <Status message="Deleting" />}
+      {/* Render Confirm component if mode is CONFIRM */}
       {mode === CONFIRM && (
         <Confirm
           message="Are you sure you would like to delete?"
-          onCancel={handleCancel}
+          onCancel={back}
           onConfirm={destroy}
         />
       )}
-      {mode === ERROR_SAVE && <Error />}
-      {mode === ERROR_DELETE && <Error />}
+      {/* Render Error component when mode is ERROR_SAVE or ERROR_DELETE */}
+      {mode === ERROR_SAVE && 
+      <Error message="Could not save appointment" onClose={back} />}
+      {mode === ERROR_DELETE && 
+      <Error message="Could not delete appointment" onClose={back} />}
     </article>
   );
 }
